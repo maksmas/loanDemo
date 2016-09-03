@@ -33,8 +33,7 @@ public class UserService {
     @PersonIdUniqueRule
     public User addUser(User user) {
         UserDefaultValueApplier.apply(user);
-        userRepository.saveUser(user);
-        return user;
+        return userRepository.saveUser(user);
     }
 
     @EntityExistsRule
@@ -49,7 +48,6 @@ public class UserService {
     public User updateUser(Long userId, User updatedUser) {
         UserDefaultValueApplier.apply(updatedUser);
         updatedUser.setId(userId);
-        userRepository.saveUser(updatedUser);
-        return updatedUser;
+        return userRepository.saveUser(updatedUser);
     }
 }

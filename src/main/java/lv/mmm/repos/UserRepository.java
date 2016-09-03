@@ -17,11 +17,12 @@ public class UserRepository extends BaseRepository<User> {
     }
 
     public List<User> getAllUsers() {
-        return getCurrentSession().createCriteria(User.class).list();
+        return getAll(User.class);
     }
 
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         getCurrentSession().saveOrUpdate(user);
+        return user;
     }
 
     public List<User> searchUsersByExample(User userExample) {

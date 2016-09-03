@@ -20,6 +20,10 @@ public abstract class BaseRepository<T> {
         this.sessionFactory = sessionFactory;
     }
 
+    public List<T> getAll(Class clazz) {
+        return getCurrentSession().createCriteria(clazz).list();
+    }
+
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
