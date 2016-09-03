@@ -1,7 +1,6 @@
 package lv.mmm.repos;
 
 import lv.mmm.domain.User;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +24,8 @@ public class UserRepository extends BaseRepository<User> {
         getCurrentSession().saveOrUpdate(user);
     }
 
-    public List<User> getUsersByExample(User userExample) {
-        return getByExample(userExample);
+    public List<User> searchUsersByExample(User userExample) {
+        return searchByExample(userExample);
     }
 
     public Optional<User> getUserById(Long userId) {

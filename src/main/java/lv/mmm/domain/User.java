@@ -1,13 +1,19 @@
 package lv.mmm.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "USERS")
-public class User {
+public class User implements Serializable {
+    private static final Long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
     @Column(name = "ID")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
     @Column(name = "FIRST_NAME")
     private String firstName;

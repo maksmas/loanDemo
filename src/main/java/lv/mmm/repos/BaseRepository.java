@@ -7,6 +7,7 @@ import org.hibernate.criterion.Example;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -23,15 +24,16 @@ public abstract class BaseRepository<T> {
         return sessionFactory.getCurrentSession();
     }
 
-    protected List<T> getByExample(T example) {
+    protected List<T> searchByExample(T example) {
         if (example == null) {
             throw new NullPointerException("Example may not be null");
         }
-        return getCurrentSession().createCriteria(example.getClass()).add(Example.create(example)).list();
+        List<T> returnedList = getCurrentSession().createCriteria(example.getClass()).add(Example.create(example)).list();
+        return returnedList == null ? Collections.emptyList() : returnedList;
     }
 
     protected  void deleteById(Class clazz, Long id) {
-        //Sorry for this one. I'm new to hibernate and haven't seen real project hibernate code.
+        //Sorry for this one. I'm new to hibernate.
         //FIXME replace on string obj
         Query query = getCurrentSession().createQuery(DELETE_HQL_STR.replace(":clazz", clazz.getName())).setLong("id", id);
         query.executeUpdate();
