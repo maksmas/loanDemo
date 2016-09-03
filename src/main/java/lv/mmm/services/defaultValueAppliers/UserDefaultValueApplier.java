@@ -9,5 +9,8 @@ public class UserDefaultValueApplier {
         if (user.getFullName() == null) {
             user.setFullName(UserUtils.generateUserFullName(user));
         }
+        if (user.getInBlacklist() == null) {
+            user.setInBlacklist(false);
+        }
     }
 }

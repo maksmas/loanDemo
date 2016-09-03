@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 @Transactional
 public class UserRepository extends BaseRepository<User> {
+    private final String blacklistHql = "update User u set u.inBlacklist = :inBL where u.id = :userId";
 
     public UserRepository(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -37,4 +38,9 @@ public class UserRepository extends BaseRepository<User> {
         deleteById(User.class, userId);
     }
 
+    public void manageBlacklistStatus(Long userId, Boolean inBlackList) {
+        getCurrentSession().createQuery(blacklistHql).
+                setBoolean("inBL", inBlackList).
+                setLong("userId", userId).executeUpdate();
+    }
 }

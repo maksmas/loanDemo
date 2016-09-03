@@ -50,4 +50,20 @@ public class UserService {
         updatedUser.setId(userId);
         return userRepository.saveUser(updatedUser);
     }
+
+    public List<User> getAllBlacklistedUsers() {
+        User userExample = new User();
+        userExample.setInBlacklist(true);
+        return userRepository.searchUsersByExample(userExample);
+    }
+
+    @EntityExistsRule
+    public void addToBlacklist(Long userId) {
+        userRepository.manageBlacklistStatus(userId, true);
+    }
+
+    @EntityExistsRule
+    public void removeFromBlacklist(Long userId) {
+        userRepository.manageBlacklistStatus(userId, false);
+    }
 }

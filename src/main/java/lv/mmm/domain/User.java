@@ -1,5 +1,6 @@
 package lv.mmm.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -21,8 +22,11 @@ public class User implements Serializable {
     private String lastName;
     @Column(name = "FULL_NAME")
     private String fullName;
-    @Column(name = "PERSONAL_ID")
+    @Column(name = "PERSONAL_ID", unique = true)
     private String personalId;
+    @JsonIgnore
+    @Column(name = "IN_BLACKLIST")
+    private Boolean inBlacklist;
 
     public User() {
     }
@@ -65,5 +69,13 @@ public class User implements Serializable {
 
     public void setPersonalId(String personalId) {
         this.personalId = personalId;
+    }
+
+    public Boolean getInBlacklist() {
+        return inBlacklist;
+    }
+
+    public void setInBlacklist(Boolean inBlacklist) {
+        this.inBlacklist = inBlacklist;
     }
 }
