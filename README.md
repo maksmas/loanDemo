@@ -19,6 +19,7 @@ mmm loan demo
 >}
 
 **list all approved loans:** GET localhost:8080/loans/
+
 **list all approved loans by user:** GET localhost:8080/loans/byUser?firstName=Robin&lastName=Hood
 
 ## PS
