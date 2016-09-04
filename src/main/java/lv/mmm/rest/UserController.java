@@ -2,13 +2,13 @@ package lv.mmm.rest;
 
 import lv.mmm.domain.User;
 import lv.mmm.services.UserService;
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User get(@PathVariable Long id) {
-        return userService.getUserById(id);
+        return userService.getUserById(id).get();
     }
 
     @PostMapping

@@ -10,6 +10,7 @@ import lv.mmm.validation.rules.PersonIdUniqueRule;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,8 +25,8 @@ public class UserService {
     }
 
     @EntityExistsRule
-    public User getUserById(Long userId) {
-        return userRepository.getUserById(userId).get();
+    public Optional<User> getUserById(Long userId) {
+        return userRepository.getUserById(userId);
     }
 
     @FirstLastNameMatchFullNameRule
@@ -65,5 +66,13 @@ public class UserService {
     @EntityExistsRule
     public void removeFromBlacklist(Long userId) {
         userRepository.manageBlacklistStatus(userId, false);
+    }
+
+    public void deleteAllUsers() {
+        userRepository.deleteAllUsers();
+    }
+
+    public List<User> searchUsersByExample(User userExample) {
+        return userRepository.searchUsersByExample(userExample);
     }
 }

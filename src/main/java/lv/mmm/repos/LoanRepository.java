@@ -2,6 +2,9 @@ package lv.mmm.repos;
 
 import lv.mmm.domain.Loan;
 import lv.mmm.domain.User;
+import lv.mmm.validation.rules.LimitServiceCallRule;
+import lv.mmm.validation.rules.MandatoryFieldsRule;
+import lv.mmm.validation.rules.UserNotBlacklistedRule;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
@@ -20,8 +23,12 @@ public class LoanRepository extends BaseRepository<Loan> {
         super(sessionFactory);
     }
 
-    public void save(Loan loan) {
+    @MandatoryFieldsRule
+    @UserNotBlacklistedRule
+    @LimitServiceCallRule
+    public Loan save(Loan loan) {
         getCurrentSession().saveOrUpdate(loan);
+        return loan;
     }
 
     public List<Loan> getAllLoans() {
@@ -46,5 +53,9 @@ public class LoanRepository extends BaseRepository<Loan> {
             searchCriteria.add(Restrictions.like("u.personalId", user.getPersonalId(), MatchMode.ANYWHERE));
         }
         return searchCriteria.list();
+    }
+
+    public void deleteAllLoans() {
+        getCurrentSession().createQuery("DELETE FROM Loan").executeUpdate();
     }
 }

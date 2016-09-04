@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Optional;
 
 @Aspect
 @Component
@@ -33,7 +32,6 @@ public class UserValidation {
         if (user.getFullName() != null) {
             String generatedFullName = UserUtils.generateUserFullName(user);
             if (!generatedFullName.equals(user.getFullName())) {
-                //TODO move this to resource file
                 throw new IllegalArgumentException("Specified user full name doesn't much firstName + lastName");
             }
         }
@@ -72,11 +70,13 @@ public class UserValidation {
     @Before(value = "execution(* lv.mmm.services.UserService.*(..)) && args(userId,user,..) && @annotation(lv.mmm.validation.rules.PersonIdUniqueRule)", argNames = "userId,user")
     public void personIdShouldBUniqueOnUpdate(Long userId, User user) {
         User exampleUser = new User();
-        exampleUser.setId(userId);
         exampleUser.setPersonalId(user.getPersonalId());
         List<User> usersWithSamePersonalId = userRepository.searchUsersByExample(exampleUser);
-        if (!usersWithSamePersonalId.isEmpty()) {
-            throw new IllegalArgumentException("User with personal id: " + user.getPersonalId() + " already exists");
+        if (usersWithSamePersonalId.size() == 1) {
+            //Need to check if it's same user
+            if (!userId.equals(usersWithSamePersonalId.get(0).getId())) {
+                throw new IllegalArgumentException("User with personal id: " + user.getPersonalId() + " already exists");
+            }
         }
     }
 }

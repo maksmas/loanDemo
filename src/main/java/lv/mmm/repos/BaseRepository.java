@@ -4,6 +4,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +33,7 @@ public abstract class BaseRepository<T> {
         if (example == null) {
             throw new NullPointerException("Example may not be null");
         }
-        List<T> returnedList = getCurrentSession().createCriteria(example.getClass()).add(Example.create(example)).list();
+        List<T> returnedList = getCurrentSession().createCriteria(example.getClass()).add(Example.create(example).enableLike(MatchMode.ANYWHERE)).list();
         return returnedList == null ? Collections.emptyList() : returnedList;
     }
 
