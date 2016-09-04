@@ -38,8 +38,6 @@ public abstract class BaseRepository<T> {
     }
 
     protected  void deleteById(Class clazz, Long id) {
-        //Sorry for this one. I'm new to hibernate.
-        //FIXME replace on string obj
         Query query = getCurrentSession().createQuery(DELETE_HQL_STR.replace(":clazz", clazz.getName())).setLong("id", id);
         query.executeUpdate();
     }
